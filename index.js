@@ -3,17 +3,25 @@ const dotenv = require('dotenv');
 const db = require('./models/Db');
 const app = new express();
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const expressSession = require('express-session');
+const ejs = require('ejs');
+const flash = require('connect-flash');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-const ejs = require('ejs');
-app.set('view engine', 'ejs');
 app.use(express.static('public'));
-const fileUpload = require('express-fileupload');
 app.use(fileUpload());
-const expressSession = require('express-session');
 app.use(expressSession({
     secret: 'keyboard cat'
 }));
+app.use(flash());
+app.set('view engine', 'ejs');
+global.loggedIn = null;
+app.use('*', (req, res, next)=>{
+    loggedIn = req.session.userId;
+    next();
+});
 dotenv.config();
 db();
 
@@ -21,7 +29,8 @@ const port = process.env.PORT;
 app.listen(port, () => {
     console.log('App running on port ' + port);
 })
-
+// redirect handler if user already authenticated
+const redirectIfAuthenticatedController = require('./middleware/redirectIfAuthenticatedMiddleware');
 // homepage request handler
 const homeController = require('./controllers/home');
 app.get('/', homeController);
@@ -48,16 +57,24 @@ app.post('/posts/store', authMiddleware, validateMiddleware, storePostController
 
 // new user registration handler
 const newUserController = require('./controllers/newUser');
-app.get('/auth/register', newUserController);
+app.get('/auth/register', redirectIfAuthenticatedController, newUserController);
 
 // store user registration details handler
 const storeUserController = require('./controllers/storeUser')
-app.post('/users/register', storeUserController);
+app.post('/users/register', redirectIfAuthenticatedController, storeUserController);
 
 // login request handler
 const loginController = require('./controllers/login');
-app.get('/auth/login', loginController);
+app.get('/auth/login', redirectIfAuthenticatedController, loginController);
 
 // store login details and validation handler
 const loginUserController = require('./controllers/loginUser');
-app.post('/users/login', loginUserController);
+app.post('/users/login', redirectIfAuthenticatedController, loginUserController);
+
+// logout request handler
+const logoutUserController = require('./controllers/logoutUser');
+app.get('/auth/logout/', logoutUserController);
+
+app.use((req, res) => {
+    res.render('404notfound');
+})
