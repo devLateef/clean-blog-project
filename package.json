@@ -8,6 +8,9 @@
   },
   "author": "lateef",
   "license": "ISC",
+  "engine": {
+    "node": "v18.13.0"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
