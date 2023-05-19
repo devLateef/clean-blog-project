@@ -1,5 +1,5 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const db = require('./models/Db');
 const app = new express();
 const bodyParser = require('body-parser');
@@ -22,7 +22,6 @@ app.use('*', (req, res, next)=>{
     loggedIn = req.session.userId;
     next();
 });
-dotenv.config();
 db();
 
 const port = process.env.PORT;
