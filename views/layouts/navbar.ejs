@@ -12,12 +12,12 @@
                 <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/post">Sample Post</a></li> -->
                 <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/contact">Contact</a></li> -->
                 <% if(loggedIn){ %>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/posts/new">Create Post</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/logout">Logout</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/post/new">Create Post</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/logout">Logout</a></li>
                 <%} %>
                 <% if(!loggedIn){ %>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/login">Login</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/register">New User</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth">Login</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/register">New User</a></li>
                 <%} %>
             </ul>
         </div>

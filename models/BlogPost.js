@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const BlogPostSchema = new Schema({
+const BlogPostSchema = mongoose.Schema({
     title: String,
     body: String,
     userid: {
