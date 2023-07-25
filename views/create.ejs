@@ -15,6 +15,15 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
+            <% if(postError != null && postError.length > 0){%>
+                <ul class="list-group">
+                    <% for(let i = 0; i < postError.length; i++){%>
+                        <li class="list-group-item list-group-item-danger">
+                            <%= postError[i] %>
+                        </li>
+                    <%} %>
+                </ul>
+                <%}%>
             <p>Want to share what's happening? Fill out the form below to post your blog!</p>
             <div class="my-5">
                 <!-- * * * * * * * * * * * * * * *-->
@@ -29,14 +38,14 @@
                         <div class="form-group floating-label-form-group controls">
                         <label for="title">Title</label>
                         <input type="text" class="form-control" placeholder="Title"
-                        id="title" name="title" >
+                        id="title" name="title">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
-                        <label for="bod">Body</label>
+                        <label for="Body">Body</label>
                         <textarea rows="5" class="form-control"
-                        id="body" name="body" ></textarea>
+                        id="body" name="body"></textarea>
                         <script>
                             $('#body').summernote({
                             placeholder: 'Hello share us what you got!',

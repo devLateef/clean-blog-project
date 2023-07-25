@@ -13,6 +13,7 @@ const newPost = asyncHandler((req, res)=>{
     if(req.session.userId){
         res.render('create', {
             createPost: true,
+            postError: req.flash('postValidationError'),
         });
     }else{
         res.redirect('/auth');

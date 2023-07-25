@@ -11,7 +11,16 @@ const homePage = asyncHandler(async (req, res) => {
 });
 
 const loginForm = asyncHandler((req, res)=>{
-    res.render('login');
+    let username = ''
+    const data = req.flash('data')[0];
+    console.log(data);
+    if (typeof data != 'undefined'){
+        username = data.username
+    }
+    res.render('login', {
+        authError: req.flash('validationErrors'),
+        username: username,
+    });
 });
 
  const loggedInUser = asyncHandler(async(req, res)=>{
@@ -23,10 +32,13 @@ const loginForm = asyncHandler((req, res)=>{
                     req.session.userId = user._id;
                     res.redirect('/');
                 }else{
+                    req.flash('validationErrors', 'Invalid Credentials')
+                    req.flash('data', req.body);
                     res.redirect('/auth');
                 };
             });
         }else{
+            req.flash('validationErrors', 'Please Provide Username and Password')
             res.redirect('/auth');
         };
     });
@@ -46,8 +58,8 @@ const loginForm = asyncHandler((req, res)=>{
 });
 
 const newUser = asyncHandler((req, res)=>{
-    var username = ""
-    var password = ""
+    let username = ""
+    let password = ""
     const data = req.flash('data')[0];
     if(typeof data != "undefined"){
         username = data.username

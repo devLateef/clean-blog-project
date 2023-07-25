@@ -14,6 +14,15 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
+            <% if(authError != null && authError.length > 0){%>
+            <ul class="list-group">
+                <% for(let i = 0; i < authError.length; i++){%>
+                    <li class="list-group-item list-group-item-danger">
+                        <%= authError[i] %>
+                    </li>
+                <%} %>
+            </ul>
+            <%}%>
             <p>We are glad to have you back!</p>
             <div class="my-5">
                 <!-- * * * * * * * * * * * * * * *-->
@@ -28,7 +37,7 @@
                         <div class="form-group floating-label-form-group controls">
                         <label for="username">User Name</label>
                         <input type="text" class="form-control" placeholder="User Name"
-                        id="username" name="username" >
+                        id="username" name="username" value="<%= username %>">
                         </div>
                     </div>
                     <div class="control-group">
