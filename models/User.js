@@ -16,7 +16,8 @@ const UserSchema = mongoose.Schema({
 UserSchema.plugin(uniqueValidator);
 UserSchema.pre('save', function(next){
     const user = this;
-    bcrypt.hash(user.password, 10, (error, hash)=>{
+    const salt = bcrypt.genSalt(10);
+    bcrypt.hash(user.password, salt, (error, hash)=>{
         user.password = hash;
         next();
     })
