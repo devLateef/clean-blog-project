@@ -1,6 +1,7 @@
 const User = require('../models/User.js');
 const BlogPost = require('../models/BlogPost');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 
 const homePage = asyncHandler(async (req, res) => {
@@ -13,7 +14,6 @@ const homePage = asyncHandler(async (req, res) => {
 const loginForm = asyncHandler((req, res)=>{
     let username = ''
     const data = req.flash('data')[0];
-    console.log(data);
     if (typeof data != 'undefined'){
         username = data.username
     }
@@ -30,6 +30,7 @@ const loginForm = asyncHandler((req, res)=>{
             bcrypt.compare(password, user.password, (error, same)=>{
                 if(same){
                     req.session.userId = user._id;
+                    generateToken(user._id);
                     res.redirect('/');
                 }else{
                     req.flash('validationErrors', 'Invalid Credentials')
@@ -78,6 +79,12 @@ const logoutUser = asyncHandler((req, res) => {
         res.redirect('/');
     });
 });
+
+const generateToken = (id)=>{
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: '30d',
+    })
+}
 
 module.exports = {
     homePage,
