@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 const expressSession = require('express-session');
 const ejs = require('ejs');
 const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
 
 
 const userRoutes = require('./routes/userRoutes');
@@ -23,6 +24,7 @@ app.use(expressSession({
 }));
 app.use(flash());
 app.set('view engine', 'ejs');
+app.use(cookieParser());
 
 
 global.loggedIn = null;
