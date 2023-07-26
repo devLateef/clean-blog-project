@@ -30,7 +30,6 @@ const protect = asyncHandler(async(req, res, next)=>{
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if(decoded){
             req.user = await User.find({_id: decoded.userid}).select('-password');
-            console.log(req.user);
             return next();
         } else {
             return res.status(302).redirect('/auth');
