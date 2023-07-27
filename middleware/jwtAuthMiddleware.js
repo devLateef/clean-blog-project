@@ -23,20 +23,22 @@ const User = require('../models/User');
 // });
 
 const protect = asyncHandler(async(req, res, next)=>{
-    let token;
-    token = req.cookies.jwt;
+    const token = req.cookies.jwt;
 
     if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
         if(decoded){
-            req.user = await User.find({_id: decoded.userid}).select('-password');
-            return next();
+
+            console.log(decoded);
+
+            req.user = await User.findById({_id: decoded.userid}).select('-password');
+            next();
         } else {
-            return res.status(302).redirect('/auth');
+            res.status(302).redirect('/auth');
         }
     }
-
-    return res.status(302).redirect('/auth');
+    res.status(302).redirect('/auth');
 })
 
 module.exports = protect;

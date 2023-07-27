@@ -1,7 +1,7 @@
 const User = require('../models/User.js');
 const BlogPost = require('../models/BlogPost');
 const bcrypt = require('bcrypt');
-const generateToken = require('../util/jwtAuth');
+const {generateToken} = require('../util/jwtAuth');
 const asyncHandler = require('express-async-handler');
 
 const homePage = asyncHandler(async (req, res) => {
@@ -27,6 +27,7 @@ const loginForm = asyncHandler((req, res)=>{
     const {username, password} = req.body;
     User.findOne({username:username}, (error, user)=>{
         if(user){
+            
             bcrypt.compare(password, user.password, (error, same)=>{
                 if(same){
                     generateToken(res, user._id);

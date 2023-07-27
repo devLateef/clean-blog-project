@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const generateToken = (res, userid)=>{
-    let token;
-    token = jwt.sign({userid}, process.env.JWT_SECRET, {
+    let token = jwt.sign({userid}, process.env.JWT_SECRET, {
         expiresIn: '1h',
     })
     res.cookie('jwt', token, {
@@ -13,4 +12,4 @@ const generateToken = (res, userid)=>{
 };
 
 
-module.exports = generateToken
+module.exports = {generateToken}
