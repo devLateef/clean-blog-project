@@ -30,10 +30,10 @@ const protect = asyncHandler(async(req, res, next)=>{
 
         if(decoded){
 
-            console.log(decoded);
-
+            
             req.user = await User.findById({_id: decoded.userid}).select('-password');
-            next();
+        
+            return next();
         } else {
             res.status(302).redirect('/auth');
         }
